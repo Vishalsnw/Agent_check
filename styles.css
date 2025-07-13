@@ -1,0 +1,118 @@
+/* Base styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+body {
+  @apply bg-gray-50 text-gray-800 font-sans;
+}
+
+.container {
+  @apply max-w-6xl mx-auto px-4 py-8;
+}
+
+.header {
+  @apply text-center mb-8;
+}
+
+.header h1 {
+  @apply text-3xl font-bold text-indigo-700 mb-2;
+}
+
+.header p {
+  @apply text-gray-600;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-md p-6 mb-6;
+}
+
+.card-title {
+  @apply text-xl font-semibold mb-4 text-indigo-600 border-b pb-2;
+}
+
+.form-group {
+  @apply mb-4;
+}
+
+.form-label {
+  @apply block text-gray-700 font-medium mb-2;
+}
+
+.form-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500;
+}
+
+.textarea {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md h-32 focus:outline-none focus:ring-2 focus:ring-indigo-500;
+}
+
+.btn {
+  @apply px-4 py-2 rounded-md font-medium transition-colors;
+}
+
+.btn-primary {
+  @apply bg-indigo-600 text-white hover:bg-indigo-700;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
+}
+
+.resume-container {
+  @apply bg-white p-6 rounded-lg shadow-md;
+}
+
+.resume-section {
+  @apply mb-6;
+}
+
+.resume-section-title {
+  @apply text-xl font-bold text-indigo-600 border-b pb-2 mb-3;
+}
+
+.resume-content {
+  @apply text-gray-700;
+}
+
+.alert {
+  @apply p-4 rounded-md mb-4;
+}
+
+.alert-error {
+  @apply bg-red-100 text-red-700;
+}
+
+.alert-success {
+  @apply bg-green-100 text-green-700;
+}
+
+.action-buttons {
+  @apply flex gap-3 mt-4;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    @apply px-3;
+  }
+  
+  .action-buttons {
+    @apply flex-col;
+  }
+  
+  .btn {
+    @apply w-full;
+  }
+}
+
+@media print {
+  .no-print {
+    @apply hidden;
+  }
+  
+  .resume-container {
+    @apply shadow-none p-0;
+  }
+}
