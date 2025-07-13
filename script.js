@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { apiConfig } from './config.js';
 import { showNotification } from './notifications.js';
 import { validateInput } from './validation.js';
@@ -120,3 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     module.hot.dispose(() => app.destroy());
   }
 });
+=======
+// This file is no longer needed as all functionality is in index.html
+// Keeping as placeholder for future modular development
+>>>>>>> 34f0724 (Assistant checkpoint: Fix server response and clean up code)

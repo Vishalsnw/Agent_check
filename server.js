@@ -53,7 +53,7 @@ app.post('/generate', async (req, res) => {
     );
 
     const resumeContent = response.data.choices[0].message.content;
-    res.json({ resume: resumeContent });
+    res.send(resumeContent);
 
   } catch (error) {
     console.error('Error generating resume:', error);
