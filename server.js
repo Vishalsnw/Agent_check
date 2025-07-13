@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static('.'));
 
 if (!process.env.DEEPSEEK_API_KEY) {
   console.error('Error: DEEPSEEK_API_KEY is missing from .env file');
