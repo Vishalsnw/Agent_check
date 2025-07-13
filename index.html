@@ -5,56 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Resume Builder</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <header class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-indigo-700">AI Resume Builder</h1>
+            <h1 class="text-3xl font-bold text-gray-800">AI Resume Builder</h1>
             <p class="text-gray-600">Powered by DeepSeek Pi</p>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Input Form -->
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">Your Information</h2>
-                <form id="resumeForm" class="space-y-4">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                        <input type="text" id="name" name="name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                <h2 class="text-xl font-semibold mb-4">Your Information</h2>
+                <form id="resumeForm">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="name">Full Name</label>
+                        <input type="text" id="name" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
                     </div>
 
-                    <div>
-                        <label for="jobTitle" class="block text-sm font-medium text-gray-700">Job Title</label>
-                        <input type="text" id="jobTitle" name="jobTitle" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="role">Desired Job Title</label>
+                        <input type="text" id="role" name="role" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
                     </div>
 
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="experience">Years of Experience</label>
+                        <input type="number" id="experience" name="experience" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
                     </div>
 
-                    <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-                        <input type="tel" id="phone" name="phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="skills">Key Skills (comma separated)</label>
+                        <textarea id="skills" name="skills" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea>
                     </div>
 
-                    <div>
-                        <label for="skills" class="block text-sm font-medium text-gray-700">Skills (comma separated)</label>
-                        <textarea id="skills" name="skills" rows="3" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="jobHistory">Previous Job History (one per line)</label>
+                        <textarea id="jobHistory" name="jobHistory" rows="5" class="w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea>
                     </div>
 
-                    <div>
-                        <label for="experience" class="block text-sm font-medium text-gray-700">Work Experience (one per line)</label>
-                        <textarea id="experience" name="experience" rows="5" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="education">Education</label>
+                        <textarea id="education" name="education" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea>
                     </div>
 
-                    <div>
-                        <label for="education" class="block text-sm font-medium text-gray-700">Education (one per line)</label>
-                        <textarea id="education" name="education" rows="3" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-                    </div>
-
-                    <button type="submit" id="generateBtn" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200">
                         Generate Resume
                     </button>
                 </form>
@@ -63,105 +58,67 @@
             <!-- Resume Output -->
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-800">Your AI-Generated Resume</h2>
-                    <div class="space-x-2">
-                        <button id="copyBtn" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Copy</button>
-                        <button id="downloadBtn" class="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700">Download PDF</button>
+                    <h2 class="text-xl font-semibold">Your AI-Generated Resume</h2>
+                    <div class="flex space-x-2">
+                        <button id="copyBtn" class="bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300 transition duration-200">
+                            Copy
+                        </button>
+                        <button id="downloadBtn" class="bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300 transition duration-200">
+                            Download
+                        </button>
                     </div>
                 </div>
 
-                <div id="resumeOutput" class="border border-gray-200 p-4 rounded min-h-[500px]">
-                    <p class="text-gray-500 text-center mt-40">Your AI-generated resume will appear here</p>
+                <div id="resumeOutput" class="border border-gray-200 p-4 rounded-md min-h-[500px] bg-gray-50">
+                    <p class="text-gray-500 italic">Your resume will appear here after generation...</p>
                 </div>
-
-                <div id="errorMsg" class="hidden mt-4 p-3 bg-red-100 text-red-700 rounded"></div>
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('resumeForm');
-            const resumeOutput = document.getElementById('resumeOutput');
-            const generateBtn = document.getElementById('generateBtn');
-            const copyBtn = document.getElementById('copyBtn');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const errorMsg = document.getElementById('errorMsg');
+        document.getElementById('resumeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                role: document.getElementById('role').value,
+                experience: document.getElementById('experience').value,
+                skills: document.getElementById('skills').value,
+                jobHistory: document.getElementById('jobHistory').value,
+                education: document.getElementById('education').value
+            };
 
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                generateBtn.disabled = true;
-                generateBtn.textContent = 'Generating...';
-                errorMsg.classList.add('hidden');
-
-                const formData = {
-                    name: document.getElementById('name').value,
-                    jobTitle: document.getElementById('jobTitle').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    skills: document.getElementById('skills').value,
-                    experience: document.getElementById('experience').value,
-                    education: document.getElementById('education').value
-                };
-
-                try {
-                    const response = await fetch('/generate', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formData)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(await response.text());
-                    }
-
-                    const data = await response.json();
-                    displayResume(data.resume);
-                } catch (err) {
-                    errorMsg.textContent = err.message || 'Failed to generate resume. Please try again.';
-                    errorMsg.classList.remove('hidden');
-                } finally {
-                    generateBtn.disabled = false;
-                    generateBtn.textContent = 'Generate Resume';
-                }
-            });
-
-            copyBtn.addEventListener('click', function() {
-                const range = document.createRange();
-                range.selectNode(resumeOutput);
-                window.getSelection().removeAllRanges();
-                window.getSelection().addRange(range);
-                document.execCommand('copy');
-                window.getSelection().removeAllRanges();
-                
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = 'Copied!';
-                setTimeout(() => {
-                    copyBtn.textContent = originalText;
-                }, 2000);
-            });
-
-            downloadBtn.addEventListener('click', function() {
-                const element = document.createElement('div');
-                element.innerHTML = resumeOutput.innerHTML;
-                element.style.padding = '20px';
-                
-                const opt = {
-                    margin: 10,
-                    filename: 'resume.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 2 },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                };
-
-                html2pdf().from(element).set(opt).save();
-            });
-
-            function displayResume(content) {
-                resumeOutput.innerHTML = content;
+            try {
+                const response = await axios.post('/generate', formData);
+                document.getElementById('resumeOutput').innerHTML = response.data
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('resumeOutput').innerHTML = 
+                    '<p class="text-red-500">Error generating resume. Please try again.</p>';
             }
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            const resumeText = document.getElementById('resumeOutput').innerText;
+            navigator.clipboard.writeText(resumeText)
+                .then(() => alert('Resume copied to clipboard!'))
+                .catch(err => console.error('Failed to copy:', err));
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const resumeText = document.getElementById('resumeOutput').innerText;
+            const blob = new Blob([resumeText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'resume.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         });
     </script>
 </body>
