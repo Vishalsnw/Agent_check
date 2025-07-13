@@ -3,123 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Resume Builder</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Advanced Project</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <header class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-800">AI Resume Builder</h1>
-            <p class="text-gray-600">Powered by DeepSeek Pi</p>
-        </header>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Input Form -->
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-semibold mb-4">Your Information</h2>
-                <form id="resumeForm">
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="name">Full Name</label>
-                        <input type="text" id="name" name="name" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="role">Desired Job Title</label>
-                        <input type="text" id="role" name="role" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="experience">Years of Experience</label>
-                        <input type="number" id="experience" name="experience" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="skills">Key Skills (comma separated)</label>
-                        <textarea id="skills" name="skills" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="jobHistory">Previous Job History (one per line)</label>
-                        <textarea id="jobHistory" name="jobHistory" rows="5" class="w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2" for="education">Education</label>
-                        <textarea id="education" name="education" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200">
-                        Generate Resume
-                    </button>
-                </form>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">Advanced<span>Project</span></a>
             </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
 
-            <!-- Resume Output -->
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold">Your AI-Generated Resume</h2>
-                    <div class="flex space-x-2">
-                        <button id="copyBtn" class="bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300 transition duration-200">
-                            Copy
-                        </button>
-                        <button id="downloadBtn" class="bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300 transition duration-200">
-                            Download
-                        </button>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Welcome to Our Advanced Project</h1>
+                    <p>Experience cutting-edge solutions tailored to your needs with our professional services.</p>
+                    <div class="cta-buttons">
+                        <a href="services.html" class="btn btn-primary">Our Services</a>
+                        <a href="contact.html" class="btn btn-secondary">Get in Touch</a>
                     </div>
                 </div>
+                <div class="hero-image">
+                    <img src="images/hero-image.svg" alt="Modern digital solutions">
+                </div>
+            </div>
+        </section>
 
-                <div id="resumeOutput" class="border border-gray-200 p-4 rounded-md min-h-[500px] bg-gray-50">
-                    <p class="text-gray-500 italic">Your resume will appear here after generation...</p>
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Why Choose Us</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Fast Performance</h3>
+                        <p>Optimized solutions that deliver blazing fast results for your business needs.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Secure Solutions</h3>
+                        <p>Enterprise-grade security to protect your data and business operations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Responsive Design</h3>
+                        <p>Flawless experience across all devices from mobile to desktop.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>24/7 Support</h3>
+                        <p>Dedicated support team available around the clock to assist you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="container">
+                <h2 class="section-title">What Our Clients Say</h2>
+                <div class="testimonial-slider">
+                    <div class="testimonial">
+                        <div class="testimonial-content">
+                            <p>"The team delivered exceptional results that exceeded our expectations. Highly recommended!"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="images/client1.jpg" alt="Client">
+                            <div class="author-info">
+                                <h4>Sarah Johnson</h4>
+                                <p>CEO, TechSolutions</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-content">
+                            <p>"Their attention to detail and professionalism made all the difference in our project."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="images/client2.jpg" alt="Client">
+                            <div class="author-info">
+                                <h4>Michael Chen</h4>
+                                <p>Director, Digital Innovations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to Transform Your Business?</h2>
+                <p>Get started with our professional services today and take your business to the next level.</p>
+                <a href="contact.html" class="btn btn-primary">Contact Us Now</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>About Us</h3>
+                    <p>We provide cutting-edge digital solutions to help businesses grow and succeed in the modern marketplace.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Mobile Apps</a></li>
+                        <li><a href="#">UI/UX Design</a></li>
+                        <li><a href="#">Digital Marketing</a></li>
+                        <li><a href="#">SEO Services</a></li>
+                        <li><a href="#">Cloud Solutions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Business Ave, Suite 456, New York, NY 10001</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@advancedproject.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Advanced Project. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
 
-    <script>
-        document.getElementById('resumeForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                role: document.getElementById('role').value,
-                experience: document.getElementById('experience').value,
-                skills: document.getElementById('skills').value,
-                jobHistory: document.getElementById('jobHistory').value,
-                education: document.getElementById('education').value
-            };
-
-            try {
-                const response = await axios.post('/generate', formData);
-                document.getElementById('resumeOutput').innerHTML = response.data
-                    .replace(/\n/g, '<br>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('resumeOutput').innerHTML = 
-                    '<p class="text-red-500">Error generating resume. Please try again.</p>';
-            }
-        });
-
-        document.getElementById('copyBtn').addEventListener('click', () => {
-            const resumeText = document.getElementById('resumeOutput').innerText;
-            navigator.clipboard.writeText(resumeText)
-                .then(() => alert('Resume copied to clipboard!'))
-                .catch(err => console.error('Failed to copy:', err));
-        });
-
-        document.getElementById('downloadBtn').addEventListener('click', () => {
-            const resumeText = document.getElementById('resumeOutput').innerText;
-            const blob = new Blob([resumeText], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'resume.txt';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
-    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>
