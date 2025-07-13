@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-indigo-700">AI Resume Builder</h1>
+            <p class="text-gray-600">Powered by DeepSeek Pi</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Input Form -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4 text-indigo-600">Your Information</h2>
+                <form id="resumeForm">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="name">Full Name</label>
+                        <input type="text" id="name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="jobTitle">Job Title</label>
+                        <input type="text" id="jobTitle" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="experience">Experience (Years)</label>
+                        <input type="number" id="experience" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="skills">Key Skills (comma separated)</label>
+                        <textarea id="skills" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="jobHistory">Job History (one per line)</label>
+                        <textarea id="jobHistory" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 mb-2" for="education">Education (one per line)</label>
+                        <textarea id="education" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200 flex items-center justify-center">
+                        <span id="generateText">Generate Resume</span>
+                        <span id="loadingSpinner" class="hidden ml-2">
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Resume Output -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-indigo-600">Your Resume</h2>
+                    <div class="flex space-x-2">
+                        <button id="copyBtn" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-300 transition duration-200">Copy</button>
+                        <button id="downloadBtn" class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-md hover:bg-indigo-200 transition duration-200">Download PDF</button>
+                    </div>
+                </div>
+                
+                <div id="resumeOutput" class="border border-gray-200 p-4 rounded-md min-h-[500px]">
+                    <p class="text-gray-500 text-center mt-40">Your AI-generated resume will appear here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+            <h3 class="text-xl font-semibold text-red-600 mb-2">Error</h3>
+            <p id="errorMessage" class="text-gray-700 mb-4"></p>
+            <button onclick="document.getElementById('errorModal').classList.add('hidden')" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition duration-200">Close</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('resumeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const generateText = document.getElementById('generateText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            
+            generateText.textContent = 'Generating...';
+            loadingSpinner.classList.remove('hidden');
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                jobTitle: document.getElementById('jobTitle').value,
+                experience: document.getElementById('experience').value,
+                skills: document.getElementById('skills').value,
+                jobHistory: document.getElementById('jobHistory').value,
+                education: document.getElementById('education').value
+            };
+            
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(await response.text());
+                }
+                
+                const data = await response.json();
+                document.getElementById('resumeOutput').innerHTML = formatResume(data.resume);
+            } catch (error) {
+                showError(error.message);
+            } finally {
+                generateText.textContent = 'Generate Resume';
+                loadingSpinner.classList.add('hidden');
+            }
+        });
+        
+        function formatResume(resumeText) {
+            // Split the resume into sections
+            const sections = resumeText.split('\n\n');
+            
+            let html = '';
+            sections.forEach(section => {
+                if (section.trim() === '') return;
+                
+                // Check if this is a section header
+                if (section.includes(':')) {
+                    const [header, ...content] = section.split(':');
+                    html += `<h3 class="text-lg font-semibold mt-4 mb-2 text-indigo-700">${header.trim()}</h3>`;
+                    html += `<p class="text-gray-700">${content.join(':').trim()}</p>`;
+                } else {
+                    // Check if this is a bullet point list
+                    if (section.includes('•')) {
+                        const points = section.split('•').filter(p => p.trim() !== '');
+                        html += '<ul class="list-disc pl-5 mt-2 space-y-1">';
+                        points.forEach(point => {
+                            html += `<li class="text-gray-700">${point.trim()}</li>`;
+                        });
+                        html += '</ul>';
+                    } else {
+                        html += `<p class="text-gray-700 mt-2">${section}</p>`;
+                    }
+                }
+            });
+            
+            return html;
+        }
+        
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorModal').classList.remove('hidden');
+        }
+        
+        // Copy button functionality
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const resumeText = document.getElementById('resumeOutput').textContent;
+            navigator.clipboard.writeText(resumeText).then(() => {
+                alert('Resume copied to clipboard!');
+            }).catch(err => {
+                showError('Failed to copy text: ' + err);
+            });
+        });
+        
+        // Download PDF button functionality
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const element = document.getElementById('resumeOutput');
+            const opt = {
+                margin: 10,
+                filename: 'resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save();
+        });
+    </script>
+</body>
+</html>
